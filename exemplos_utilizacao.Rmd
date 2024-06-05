@@ -14,3 +14,21 @@ options(repos = "https://cran.r-project.org")
 install.packages("class")
 library(class)
 ```
+
+## batchSOM
+
+A primeira função que iremos explorar é "batchSOM" , utilizaremos o banco de dados iris disponivel no R.
+
+```{r}
+data(iris) # importanto banco de dados
+
+str(iris) #visualizar formato da base de dados
+
+radii <- seq(2, 0.1, length.out = 100)
+
+som_model <- batchSOM(iris[,1:4] , radii = radii)
+
+plot(som_model)
+
+```
+
