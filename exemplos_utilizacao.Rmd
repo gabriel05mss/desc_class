@@ -15,20 +15,31 @@ install.packages("class")
 library(class)
 ```
 
-## batchSOM
+## condense 
 
-A primeira função que iremos explorar é "batchSOM" , utilizaremos o banco de dados iris disponivel no R.
+a segunda função a ser explorada é o "condense" , essa função percorre o vertor da direita para a esquerda, tirando os iguais.
 
 ```{r}
-data(iris) # importanto banco de dados
+data("iris3")
+train <- rbind(iris3[1:25,,1], iris3[1:25,,2], iris3[1:25,,3])
+test <- rbind(iris3[26:50,,1], iris3[26:50,,2], iris3[26:50,,3])
+cl <- factor(c(rep("s",25), rep("c",25), rep("v",25)))
+keep <- condense(train, cl)
+knn(train[keep, , drop=FALSE], test, cl[keep])
+keep2 <- reduce.nn(train, keep, cl)
+knn(train[keep2, , drop=FALSE], test, cl[keep2])
 
-str(iris) #visualizar formato da base de dados
+```
+## KNN
+A chave para o algoritmo kNN é determinar a distância entre o ponto de consulta e os outros pontos de dados. A determinação das métricas de distância permite o estabelecimento de limites de decisão. Esses limites criam diferentes regiões de pontos de dados. Existem diferentes métodos usados para calcular a distância
+```{r}
+grupo <- matrix(c(0.2,0.2,0.25,0.2,0.2,0.6,0.3,0.3,0.8,0.8,0.6,0.4,0.9,0.9),7,2,byrow = T)
+rotulos = c("A","A","A","A","B","B","B")
+grupo
+testar_pt <- matrix(c(0.4,0.4,0.5,0.5,0.6,0.6,0.7,0.7,0.8,0.8),5,2,byrow = T)
 
-radii <- seq(2, 0.1, length.out = 100)
-
-som_model <- batchSOM(iris[,1:4] , radii = radii)
-
-plot(som_model)
-
+library(class)
+teste <- knn(grupo,testar_pt,rotulos,k=2,prob = FALSE)
+teste
 ```
 
